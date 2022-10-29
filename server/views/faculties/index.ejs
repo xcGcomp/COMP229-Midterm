@@ -1,0 +1,102 @@
+<% include ../partials/header.ejs %>
+
+  <!DOCTYPE html>
+
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import Vue before Element -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- import element-ui JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <div id="app">
+      <el-row>
+        <el-card>
+          <el-button type="primary" size="small" @click="dianjiadd">+Add a faculty</el-button>
+
+          <el-table v-loading="loading" :data="tableDataone" :cell-style="cellStyle" style="width: 100%" row-key="id"
+            :header-cell-style="{ 'text-align': 'center' }"
+            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
+            <el-table-column prop="name" label="Faculty ID"> </el-table-column>
+            <el-table-column prop="totalCount" label="Faculty Name"> </el-table-column>
+            <el-table-column prop="passedCount" label="Department"> </el-table-column>
+            <el-table-column prop="unPassedCount" label="Subject"> </el-table-column>
+            <el-table-column label="Subject"><template slot-scope="scope">
+                <el-button @click="edit(scope.row)">编辑</el-button>
+
+              </template> </el-table-column>
+          </el-table>
+          <el-button style="float: right;" type="primary" size="small" @click="dianjiade">delete</el-button>
+        </el-card>
+      </el-row>
+      <el-dialog :visible.sync="dialogVisible" width="30%">
+        <el-form :inline="true" :model="formInline" label-position="right" class="demo-form-inline">
+          <el-form-item label="Faculty ID">
+            <el-input v-model="formInline.name"></el-input>
+          </el-form-item>
+          <el-form-item label="Faculty Name">
+            <el-input v-model="formInline.totalCount"></el-input>
+          </el-form-item>
+          <el-form-item label="Department">
+            <el-input v-model="formInline.passedCount"></el-input>
+          </el-form-item>
+          <el-form-item label="Subject">
+            <el-input v-model="formInline.unPassedCount"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">edit</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    </div>
+
+  </head>
+
+
+  <script>
+    var demo = new Vue({
+      el: "#app",
+      data() {
+        return {
+          formInline: {},
+          dialogVisible: false,
+          loading: false,
+          tableDataone: [
+            {
+              name: '1',
+              totalCount: "Tom",
+              passedCount: "slel",
+              unPassedCount: "vsjj"
+            }
+          ],
+        };
+      },
+
+      computed: {
+
+      },
+      mounted() {
+
+      },
+
+      methods: {
+        edit(val) {
+          this.formInline = val
+          this.dialogVisible = true
+        },
+        onSubmit() { this.dialogVisible = false },
+        dianjiadd() {
+          this.tableDataone.push({
+            name: '1',
+            totalCount: "Tom",
+            passedCount: "slel",
+            unPassedCount: "vsjj"
+          })
+        },
+        dianjiade() {
+          this.tableDataone.pop()
+        },
+      }
+    });
+  </script>
+
+  <% include ../partials/footer.ejs %>
